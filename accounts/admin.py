@@ -15,11 +15,12 @@ from dashboard.admin import ProfileInline
 class UserAdmin(BaseUserAdmin):
     form  = UserChangeForm
     add_form = UserCreationForm
+    
     list_filter = ('is_admin',)
     list_display = ['email','is_admin',"first_name","last_name"]
     fieldsets = (
-                ('main',{'fields':('email','first_name','last_name','password','gender','birthdate_day','birthdate_month','birthdate_year','phone_number')}),
-                 ('permissons',{'fields':('is_active','is_admin','last_login')}),
+                (None,{'fields':('email','first_name','last_name','password','gender','birthdate_day','birthdate_month','birthdate_year','phone_number')}),
+                 ('permissons',{'fields':('is_admin','last_login')}),
                  )
     add_fieldsets = (
         ('main',{'fields':('email','first_name','last_name','phone_number','password','confirm_password','gender','birthdate_day','birthdate_month','birthdate_year')}),
@@ -27,7 +28,7 @@ class UserAdmin(BaseUserAdmin):
     search_fields = ('email',)
     ordering = ('first_name','last_name')
     filter_horizontal = ()
-    inlines = [ProfileInline]  # Add the ProfileInline to the inlines attribute
+    inlines = [ProfileInline]  
 
 
 admin.site.unregister(Group)

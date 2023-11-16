@@ -52,7 +52,7 @@
                                                 <li>
 
                                                     {% if request.user %}
-                                                    <a class="dash-active" href="{% url 'dashboard:dashboard' request.user.id %}">Manage My Account</a></li>
+                                                    <a class="dash-active" href="{% url 'dashboard:dashboard' user.id %}">Manage My Account</a></li>
                                                     {% endif %}
                                                 <li>
 

@@ -1,5 +1,6 @@
 import re
 from django import forms
+from django.shortcuts import redirect
 from accounts.models import User
 from .models import Profile
 
@@ -27,14 +28,14 @@ class EditProfileForm(forms.ModelForm):
 
     def clean_phone_number(self):
             phone_number = self.cleaned_data.get('phone_number')
-            
+           
             # Regular expression pattern for phone numbers with specific area codes
             pattern = r'^(403|587|780|825|368|236|604|672|250|778|204|431|584|506|709|867|782|902|226|437|548|647|905|289|365|416|742|249|613|683|753|807|343|519|705|474|306|639|514)\d{7}$'
         
             
             if not re.match(pattern, phone_number):
                 raise forms.ValidationError('Invalid phone number format. Please use the format: Area Code + Main Number (e.g., 4031234567).')
-        
+
             
             return phone_number
 
@@ -55,3 +56,34 @@ class AddressBookForm(forms.ModelForm):
         model = Profile
         fields = ('street_address', 'city', 'province', 'zip_code', 'first_name', 'last_name', 'phone_number')
         exclude = ('user',) 
+
+
+
+
+class Password_change(forms.ModelForm):
+     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'input-text input-text--primary-style', 'placeholder': 'Password'}))
+     confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'input-text input-text--primary-style', 'placeholder': 'Confirm Password'}))
+     class Meta:
+          model = User
+          fields = ('password',)
+
+
+     def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        confirm_password = cleaned_data.get("confirm_password")
+
+        if password and confirm_password:
+            if password != confirm_password:
+                raise forms.ValidationError("Passwords do not match. Please enter the same password in both fields.")
+        return cleaned_data
+     
+
+
+class Default_shipping(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('default_shipping_address',)
+        widgets = {
+            'default_shipping_address': forms.RadioSelect(attrs={'class':'radio-box__state radio-box__state--primary'})
+        }

@@ -4,6 +4,7 @@ from .canadian_zip_validator import validate_canadian_zip
 from django.core.exceptions import ValidationError
 import re
 
+
 # Create your models here.
 
 def validate_city(value):
@@ -38,5 +39,6 @@ class Profile(models.Model):
     city = models.CharField(max_length=255,validators=[validate_city])
     province = models.CharField(max_length=2, choices=PROVINCE, null=True, blank=True, default=None)
     zip_code = models.CharField(max_length=7, validators=[validate_canadian_zip])
+    default_shipping_address = models.BooleanField(default=True)
 
-    
+   

@@ -34,7 +34,6 @@ class User(AbstractBaseUser):
     DAY_CHOICES = [(str(day), str(day)) for day in range(1, 32)]
     YEAR_CHOICES = [(str(year), str(year)) for year in range(1900, 2024)]
     email = models.EmailField(max_length=255,unique=True)
-    is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     phone_number = models.CharField(max_length=11,blank=True,null=True)
     username = None

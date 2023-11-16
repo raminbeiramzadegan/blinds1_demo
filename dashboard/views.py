@@ -1,12 +1,13 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from django.urls import reverse_lazy,reverse
 from accounts.models import User
-from .forms import AddressBookForm, EditProfileForm
+from .forms import AddressBookForm, EditProfileForm,Password_change,Default_shipping
 from django.views import View
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import UpdateView
 from .models import Profile
+from django.contrib.auth import update_session_auth_hash
 
 from django.urls import reverse
 
@@ -117,3 +118,44 @@ class AddressUpdate(View):
             form2.save()
             return redirect('dashboard:address_book', request.user.id)
         return render(request, self.template_name, {'form': form})
+    
+
+class PasswordChange(View):
+    form_class = Password_change
+    template_name = 'dashboard/change_password.html'
+    def get(self, request):
+        form = self.form_class()
+        return render(request, self.template_name, {'form': form})
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            new_password = form.cleaned_data['password']
+            user = request.user
+            user.set_password(new_password)
+            user.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, "Your password has been successfully changed.")
+            
+            return redirect('dashboard:dashboard' , request.user.id) 
+        return render(request, self.template_name, {'form': form})
+    
+
+
+class DefaultShippingAdd(View):
+    form_class = Default_shipping
+    template_name = 'dashboard/dash-address-make-default.html'
+
+    def get(self, request, id):
+        user_profile = get_object_or_404(Profile,id=id)
+        form = self.form_class(instance=user_profile)
+        return render(request, self.template_name, {'form': form, 'profiles': user_profile})
+
+    def post(self, request, id):
+        user_profile = get_object_or_404(Profile,id=id)
+        form = self.form_class(request.POST,instance=user_profile)
+
+        if form.is_valid():
+            form.save()  
+
+        return render(request, self.template_name, {'form': form, 'profiles': user_profile})
+

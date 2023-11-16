@@ -10,6 +10,7 @@ urlpatterns = [
     path('edit_profile/<int:id>/',views.UserProfileUpdate.as_view(),name="edit_profile"),
     path('addressbook/<int:id>/',views.address_book,name='address_book'),
     path('create_address/<int:id>', views.AddNewAddress.as_view(), name='create_address'),
-    path('edit_address/<int:id>', views.AddressUpdate.as_view(),name = 'edit_address')
-
+    path('edit_address/<int:id>', views.AddressUpdate.as_view(),name = 'edit_address'),
+    path('set-default-address/<int:id>/', views.DefaultShippingAdd.as_view(), name='set_default_address'),
+    path('edit_password/', views.PasswordChange.as_view(),name = 'password_change'),
 ]

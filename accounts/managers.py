@@ -2,7 +2,7 @@ from django.contrib.auth.models import BaseUserManager,PermissionsMixin
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, first_name,last_name,password=None,gender=None,birthdate_month=None,birthdate_year=None,birthdate_day=None,phone_number =None, is_active = True, is_admin=False):
+    def create_user(self, email, first_name,last_name,password=None,gender=None,birthdate_month=None,birthdate_year=None,birthdate_day=None,phone_number =None,**extra_fields):
         if not email: 
             raise ValueError("User must enter email address")
         if not first_name:
@@ -10,10 +10,10 @@ class UserManager(BaseUserManager):
         if not last_name:
             raise ValueError("User must enter Last Name")
         
-        user = self.model(email = self.normalize_email(email),first_name = first_name,last_name = last_name,gender =gender ,birthdate_year = birthdate_year,birthdate_month=birthdate_month,birthdate_day=birthdate_day,phone_number = phone_number)
-        # user.admin = is_admin
-        # user.active = is_admin
+        user = self.model(email = self.normalize_email(email),first_name = first_name,last_name = last_name,gender =gender ,birthdate_year = birthdate_year,birthdate_month=birthdate_month,birthdate_day=birthdate_day,phone_number = phone_number,**extra_fields)        
+
         user.set_password(password)
+        user.is_active = True
         user.save(using=self._db)
         return user
     

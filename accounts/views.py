@@ -39,13 +39,40 @@ class SignUpView(View):
 
             }
             user_session = request.session['user_signup_form']
+            User.is_active = True
             User.objects.create_user(first_name = user_session['first_name'],last_name = user_session['last_name'], email = user_session['email'], password= user_session['password'],gender = user_session['gender'],birthdate_year = user_session['birthdate_year'],birthdate_month=user_session['birthdate_month'],birthdate_day=user_session['birthdate_day'])
             # messages.success(request,'Registered Successfully','success')
             return redirect('accounts:sign_in')
         return render(request, self.template_name, {'form': form})
 
 
+# class SignUpView(View):
+#     form_class = SignUpForm
+#     template_name = 'accounts/signup.html'
 
+#     def get(self, request):
+#         form = self.form_class()
+#         return render(request, self.template_name, {'form': form})
+
+#     def post(self, request):
+#         form = self.form_class(request.POST)
+#         if form.is_valid():
+#             cd = form.cleaned_data
+#             User.is_active = True
+#             User.objects.create_user(
+#                 email=cd['email'],
+#                 first_name=cd['first_name'],
+#                 last_name=cd['last_name'],
+#                 password=cd['password'],
+#                 gender=cd['gender'],
+#                 birthdate_year=cd['birthdate_year'],
+#                 birthdate_month=cd['birthdate_month'],
+#                 birthdate_day=cd['birthdate_day']
+#             )
+#             # You can further customize this flow as needed
+#             return redirect('accounts:sign_in')
+
+#         return render(request, self.template_name, {'form': form})
 
 
 

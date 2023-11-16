@@ -53,10 +53,10 @@
                                             <ul class="dash__f-list">
                                                 <li>
 
-                                                    <a href="{% url 'dashboard:dashboard' user.id %}">Manage My Account</a></li>
+                                                    <a href="{% url 'dashboard:dashboard' request.user.id %}">Manage My Account</a></li>
                                                 <li>
 
-                                                    <a class="dash-active" href="{% url 'dashboard:profile' user.id %">My Profile</a></li>
+                                                    <a class="dash-active" href="{% url 'dashboard:profile' request.user.id %">My Profile</a></li>
                                                 <li>
 
                                                     <a href="dash-address-book.html">Address Book</a></li>
@@ -156,10 +156,10 @@
                                                         <a data-modal="modal" data-modal-id="#dash-newsletter">Subscribe Newsletter</a></div>
                                                     <div class="u-s-m-b-16">
 
-                                                        <a class="dash__custom-link btn--e-transparent-brand-b-2" href="{% url 'dashboard:edit_profile' user.id %}">Edit Profile</a></div>
+                                                        <a class="dash__custom-link btn--e-transparent-brand-b-2" href="{% url 'dashboard:edit_profile' request.user.id %}">Edit Profile</a></div>
                                                     <div>
 
-                                                        <a class="dash__custom-link btn--e-brand-b-2" href="#">Change Password</a></div>
+                                                        <a class="dash__custom-link btn--e-brand-b-2" href="{% url 'dashboard:password_change' %}">Change Password</a></div>
                                                 </div>
                                             </div>
                                         </div>
